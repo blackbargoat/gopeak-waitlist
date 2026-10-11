@@ -1,0 +1,65 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GoPeak Waitlist</title><meta name="description" content="Find out how tall you'll get. Join the GoPeak waitlist and get early access.">
+<meta property="og:title" content="GoPeak: find out how tall you'll get"><meta property="og:description" content="Join the waitlist for early access."><meta property="og:image" content="https://blackbargoat.github.io/gopeak-waitlist/logo.png">
+<link rel="icon" href="logo.png"><style>:root{--bg:#070b16;--card:#0f1a33;--text:#eef2fb;--muted:#9aa6c2;--accent:#1e8ffb}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#0b2a5c 0,#070b16 420px);background-color:var(--bg);color:var(--text);font:16px/1.65 -apple-system,BlinkMacSystemFont,"SF Pro Rounded","Inter",sans-serif}
+main{max-width:760px;margin:0 auto;padding:48px 16px 80px}a{color:var(--accent)}
+header{display:flex;align-items:center;gap:14px;margin-bottom:28px}header img{width:56px;height:56px;border-radius:14px}
+header b{font-size:22px}nav a{margin-right:16px;color:var(--muted);text-decoration:none}
+h1{font-size:34px;line-height:1.15;margin:8px 0 4px}h2{font-size:20px;margin-top:32px}.muted{color:var(--muted)}
+.card{background:var(--card);border:1px solid #ffffff22;border-radius:18px;padding:20px;margin:18px 0}
+input,textarea{width:100%;padding:12px;border-radius:12px;border:1px solid #ffffff33;background:#0a1226;color:var(--text);font:inherit;margin:6px 0 14px}
+button{background:var(--accent);color:#fff;border:0;border-radius:999px;padding:12px 26px;font:600 16px inherit;box-shadow:0 5px 12px #0006;cursor:pointer}
+</style>
+<style>
+main.wl{max-width:560px;text-align:center;padding-top:56px}
+.wl header{justify-content:center}
+.wl h1{font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;margin:18px 0 10px}
+.wl h1 span{color:var(--accent)}
+.wl .lead{font-size:18px;color:var(--muted);margin:0 auto 28px;max-width:440px}
+.pill{display:inline-block;padding:6px 14px;border-radius:999px;background:#1e8ffb22;color:#7cc0ff;font:600 13px/1.4 inherit;letter-spacing:.04em;text-transform:uppercase}
+.wl form{display:flex;flex-direction:column;gap:0;text-align:left}
+.wl .row{display:flex;gap:10px}.wl .row label{flex:1}
+.wl button{width:100%;padding:16px;font-size:17px;margin-top:4px}
+.wl ul{list-style:none;padding:0;margin:28px 0 0;text-align:left;display:grid;gap:12px}
+.wl li{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid #ffffff1a;border-radius:16px;padding:14px 16px}
+.wl li b{display:block}.wl li i{font-style:normal;font-size:22px;line-height:1.3}
+.wl small{display:block;color:var(--muted);margin-top:10px;text-align:center}
+.done{display:none;padding:28px 20px}.done h2{margin:6px 0}
+select{width:100%;padding:12px;border-radius:12px;border:1px solid #ffffff33;background:#0a1226;color:var(--text);font:inherit;margin:6px 0 14px}
+</style></head><body><main class="wl">
+<header><img src="logo.png" alt="GoPeak logo"><b>GoPeak</b></header>
+<span class="pill">Coming soon to iPhone</span>
+<h1>Find out how tall <span>you'll get</span></h1>
+<p class="lead">GoPeak predicts your adult height range and gives you a daily plan for sleep, food and training to hit your peak.</p>
+
+<form class="card" id="wl">
+  <p style="display:none"><label>Leave empty <input name="company"></label></p>
+  <label>Email<input type="email" name="email" placeholder="you@email.com" required autocomplete="email"></label>
+  <div class="row">
+    <label>Age<input type="number" name="age" min="8" max="99" inputmode="numeric" placeholder="15"></label>
+    <label>Instagram / TikTok<input name="handle" placeholder="@you" autocapitalize="off"></label>
+  </div>
+  <button type="submit">Join the waitlist</button>
+  <small>No spam. One email when GoPeak launches.</small>
+</form>
+<div class="card done" id="done"><i style="font-size:40px;font-style:normal">🎉</i><h2>You're on the list</h2><p class="muted">We'll email you the moment GoPeak is live. Tell your friends.</p></div>
+
+<ul>
+  <li><i>📏</i><div><b>Height prediction</b><span class="muted">Your adult height range from your parents' heights and age.</span></div></li>
+  <li><i>💪</i><div><b>28-day Grow program</b><span class="muted">Step-by-step workouts for posture and strength.</span></div></li>
+  <li><i>🌙</i><div><b>Daily habits</b><span class="muted">Track sleep, protein and activity, and watch your streak climb.</span></div></li>
+</ul>
+<p class="muted" style="margin-top:32px;font-size:14px"><a href="https://gopeak-app.netlify.app/privacy">Privacy</a> · <a href="https://gopeak-app.netlify.app/terms">Terms</a> · <a href="https://gopeak-app.netlify.app/">Support</a></p>
+</main>
+<script>
+// Signups go to GoPeak's Supabase "waitlist" table (insert-only; the public key can't read it).
+const API='https://etdbjahwegsmuelcawgf.supabase.co/rest/v1/waitlist',KEY='sb_publishable_p8exB2dS5lpdz-p1chueJA_n9zRQdnG';
+const f=document.getElementById('wl'),d=document.getElementById('done');
+const show=()=>{f.style.display='none';d.style.display='block'};
+f.addEventListener('submit',async e=>{e.preventDefault();const v=new FormData(f);if(v.get('company'))return show();
+const b=f.querySelector('button');b.disabled=true;b.textContent='Joining…';
+const age=parseInt(v.get('age'));const body={email:v.get('email').trim().toLowerCase(),age:age>=8&&age<=99?age:null,handle:(v.get('handle')||'').trim().slice(0,60)||null};
+try{const r=await fetch(API,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(body)});
+if(r.ok||r.status===409)return show();throw 0}catch{b.disabled=false;b.textContent='Something went wrong, try again'}});
+</script></body></html>
