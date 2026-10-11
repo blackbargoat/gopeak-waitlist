@@ -108,19 +108,27 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 .done .share:hover{box-shadow:0 5px 0 #1b4fa8}
 @keyframes pop{from{transform:scale(.94);opacity:0}}
 
-.phones{position:relative;height:540px;margin:60px auto 0;max-width:900px}
-.phone{position:absolute;left:50%;top:0;width:260px;aspect-ratio:1320/2868;border-radius:44px;padding:8px;background:#0b0f18;
-  box-shadow:0 0 0 1.5px rgba(255,255,255,.2),0 40px 70px -25px rgba(8,22,70,.7)}
-.phone img{width:100%;height:100%;object-fit:cover;border-radius:36px}
-.phone.c{z-index:3;transform:translateX(-50%)}
-.phone.l{top:64px;transform:translateX(-120%) rotate(-6deg) scale(.88)}
-.phone.r{top:64px;transform:translateX(20%) rotate(6deg) scale(.88)}
-.phones{overflow:hidden;-webkit-mask-image:linear-gradient(#000 62%,transparent);mask-image:linear-gradient(#000 62%,transparent);padding-top:2px}
+/* screenshot carousel: swipe or drag, auto-rotates, phones turn around a circle */
+.carousel{position:relative;margin:56px auto 0;padding-bottom:8px;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.stage{position:relative;height:600px;perspective:1400px;cursor:grab}
+.stage.drag{cursor:grabbing}
+.slide{position:absolute;left:50%;top:0;margin:0;width:262px;transform-style:preserve-3d;transition:transform .7s var(--ease),opacity .7s var(--ease),filter .7s;will-change:transform}
+.stage.drag .slide{transition:none}
+.phone{aspect-ratio:1320/2868;border-radius:44px;padding:8px;background:#0b0f18;box-shadow:0 0 0 1.5px rgba(255,255,255,.22),0 40px 70px -25px rgba(8,22,70,.7)}
+.phone img{width:100%;height:100%;object-fit:cover;border-radius:36px;pointer-events:none;-webkit-user-drag:none}
+figcaption{margin-top:18px;text-align:center;font-weight:700;font-size:17px;letter-spacing:-.015em;opacity:0;transition:opacity .4s}
+.slide.on figcaption{opacity:1}
+.dots{display:flex;justify-content:center;gap:8px;margin-top:4px}
+.dots button{width:8px;height:8px;padding:0;border:0;border-radius:99px;background:rgba(255,255,255,.4);cursor:pointer;transition:width .3s var(--ease),background .3s}
+.dots button.on{width:24px;background:#fff}
 @media (max-width:640px){
-  .phones{height:380px;margin-top:44px}
-  .phone{width:180px;border-radius:32px;padding:6px}.phone img{border-radius:27px}
-  .phone.l{top:44px;transform:translateX(-104%) rotate(-6deg) scale(.86)}.phone.r{top:44px;transform:translateX(4%) rotate(6deg) scale(.86)}
+  .carousel{margin-top:44px;margin-left:-20px;margin-right:-20px;overflow:hidden}
+  .stage{height:480px}
+  .slide{width:206px}
+  .phone{border-radius:36px;padding:6px}.phone img{border-radius:30px}
+  figcaption{font-size:16px;margin-top:14px}
 }
+@media (min-width:641px){.carousel{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}}
 
 /* faq */
 .faq{padding:40px 0 100px}
@@ -172,11 +180,18 @@ footer a:hover{color:#fff}
     <div class="done" id="heroDone"><span class="check"><svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>You're on the list</b><span data-msg>We'll email you the day it drops.</span></div><button class="btn btn-sm share" data-share>Share</button></div>
     <p class="note" id="note">free early access · iPhone</p>
 
-    <div class="phones" aria-hidden="true">
-      <div class="phone l"><img src="shots/curve.webp" alt=""></div>
-      <div class="phone c"><img src="shots/home.webp" alt=""></div>
-      <div class="phone r"><img src="shots/daily.webp" alt=""></div>
+    <div class="carousel" id="carousel" aria-label="App screenshots, swipe to browse">
+      <div class="stage" id="stage">
+        <figure class="slide"><div class="phone"><img src="shots/home.webp" alt="GoPeak home: current and predicted height"></div><figcaption>your predicted height</figcaption></figure>
+        <figure class="slide"><div class="phone"><img src="shots/curve.webp" alt="GoPeak growth curve" loading="lazy"></div><figcaption>your growth curve</figcaption></figure>
+        <figure class="slide"><div class="phone"><img src="shots/daily.webp" alt="GoPeak daily nutrition tracking" loading="lazy"></div><figcaption>daily nutrition + sleep</figcaption></figure>
+        <figure class="slide"><div class="phone"><img src="shots/grow.webp" alt="GoPeak 28-day Grow program" loading="lazy"></div><figcaption>28-day grow program</figcaption></figure>
+        <figure class="slide"><div class="phone"><img src="shots/workout.webp" alt="GoPeak workout with exercise photos" loading="lazy"></div><figcaption>guided workouts</figcaption></figure>
+        <figure class="slide"><div class="phone"><img src="shots/progress.webp" alt="GoPeak progress tracking" loading="lazy"></div><figcaption>track your progress</figcaption></figure>
+      </div>
+      <div class="dots" id="dots" role="tablist"></div>
     </div>
+  </div>
   </header>
 
   <section class="faq wrap" id="faq">
@@ -229,6 +244,47 @@ if (!reduce) {
     requestAnimationFrame(frame);
   })(last);
 }
+
+// screenshot carousel
+(() => {
+  const stage = document.getElementById("stage"), slides = [...stage.children], dots = document.getElementById("dots");
+  const n = slides.length; let cur = 0, drag = 0, timer;
+  slides.forEach((_, i) => { const d = document.createElement("button"); d.setAttribute("aria-label", `Screenshot ${i + 1}`); d.onclick = () => go(i); dots.appendChild(d); });
+  function layout() {
+    const w = slides[0].offsetWidth, gap = innerWidth < 641 ? w * 0.9 : w * 0.92;
+    slides.forEach((el, i) => {
+      let o = i - cur; if (o > n / 2) o -= n; if (o < -n / 2) o += n;
+      const x = o + drag, ax = Math.abs(x);
+      el.style.transform = `translateX(calc(-50% + ${x * gap}px)) translateZ(${-ax * 160}px) rotateY(${-x * 28}deg)`;
+      el.style.opacity = ax > 2.2 ? 0 : 1 - ax * 0.22;
+      el.style.zIndex = 10 - Math.round(ax * 2);
+      el.style.filter = ax > 0.5 ? `brightness(${1 - Math.min(ax, 2) * 0.18})` : "none";
+      el.classList.toggle("on", o === 0);
+    });
+    [...dots.children].forEach((d, i) => d.classList.toggle("on", i === cur));
+  }
+  function go(i) { cur = (i + n) % n; drag = 0; layout(); restart(); }
+  function restart() { clearInterval(timer); if (!reduce) timer = setInterval(() => go(cur + 1), 3200); }
+  // swipe / drag
+  let x0 = null, y0 = 0, moved = false;
+  stage.addEventListener("pointerdown", (e) => { x0 = e.clientX; y0 = e.clientY; moved = false; clearInterval(timer); });
+  addEventListener("pointermove", (e) => {
+    if (x0 === null) return;
+    const dx = e.clientX - x0;
+    if (!moved && Math.abs(dx) < 6) return;
+    if (!moved && Math.abs(e.clientY - y0) > Math.abs(dx)) { x0 = null; restart(); return; } // vertical scroll, let the page move
+    moved = true; stage.classList.add("drag");
+    drag = dx / (slides[0].offsetWidth * 0.9); layout();
+  });
+  const end = () => {
+    if (x0 === null) return; x0 = null; stage.classList.remove("drag");
+    if (moved) { const step = Math.round(-drag) || (drag < -0.15 ? 1 : drag > 0.15 ? -1 : 0); go(cur + step); } else restart();
+  };
+  addEventListener("pointerup", end); addEventListener("pointercancel", end);
+  slides.forEach((el, i) => el.addEventListener("click", () => { if (!moved && i !== cur) go(i); }));
+  addEventListener("resize", layout);
+  layout(); restart();
+})();
 
 // typing: who it's for
 (() => {
