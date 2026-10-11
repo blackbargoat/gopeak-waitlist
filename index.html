@@ -311,6 +311,23 @@ if (!reduce) {
   })();
 })();
 
+// Anonymous analytics for the dashboard: a visit, a tap on "join waitlist", a signup. No emails or IPs are stored with these.
+function source() {
+  const ua = navigator.userAgent, q = new URLSearchParams(location.search).get("ref");
+  if (q) return q.slice(0, 40);
+  if (/Instagram/i.test(ua)) return "instagram";
+  if (/musical_ly|TikTok|BytedanceWebview/i.test(ua)) return "tiktok";
+  try { if (document.referrer) return new URL(document.referrer).hostname.replace(/^www\./, "").slice(0, 40); } catch {}
+  return "direct";
+}
+const logged = new Set();
+function track(kind) {
+  if (logged.has(kind) || /^(localhost|127\.)/.test(location.hostname)) return;
+  logged.add(kind);
+  fetch(`${API}/site_events`, { method: "POST", keepalive: true, headers: { ...H, Prefer: "return=minimal" }, body: JSON.stringify({ kind, ref: source() }) }).catch(() => {});
+}
+track("view");
+
 let count = null;
 async function loadCount() {
   try { const r = await fetch(`${API}/rpc/waitlist_count`, { method: "POST", headers: H, body: "{}" }); if (r.ok) count = await r.json(); } catch {}
@@ -321,6 +338,7 @@ loadCount();
 // any "join" button scrolls up and puts you in the email box
 const form = document.getElementById("heroForm"), email = document.getElementById("heroEmail");
 function openPill() {
+  track("open");
   form.classList.add("open");
   form.querySelectorAll("[tabindex='-1']:not([name=company])").forEach((el) => el.removeAttribute("tabindex"));
   setTimeout(() => email.focus({ preventScroll: true }), 260);
@@ -342,6 +360,7 @@ form.addEventListener("submit", async (e) => {
     const r = await fetch(`${API}/waitlist`, { method: "POST", headers: { ...H, Prefer: "return=minimal" }, body: JSON.stringify({ email: email.value.trim().toLowerCase() }) });
     if (!r.ok && r.status !== 409) throw 0;
     await loadCount();
+    if (r.ok) track("signup");
     const done = document.getElementById("heroDone");
     done.querySelector("[data-msg]").textContent = r.status === 409 ? "You were already on it. We'll email you the day it drops."
       : typeof count === "number" && count > 0 ? `You're #${count.toLocaleString()}. We'll email you the day it drops.` : "We'll email you the day it drops.";
