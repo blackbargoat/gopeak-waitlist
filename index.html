@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#3f8ef5">
+<meta name="theme-color" content="#5aa6fa">
 <title>GoPeak Waitlist</title>
 <meta name="description" content="Find out how tall you'll get. GoPeak predicts your adult height range and gives you a daily plan to reach the top of it. Join the waitlist.">
 <meta property="og:title" content="GoPeak: find out how tall you'll get">
@@ -19,255 +19,157 @@
 :root{
   /* SF Pro on Apple devices (same font as the app), Inter everywhere else */
   --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,system-ui,sans-serif;
-  --blue-top:#5aa6fa; --blue-mid:#3f86ef; --blue-low:#2d63d0;
-  --ink:#070a12; --card:#121825; --card-2:#182030;
-  --text:#f4f6fb; --dim:#9aa4b8; --faint:#667086;
-  --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16);
+  --blue-top:#5aa6fa; --blue-mid:#3f86ef; --blue-low:#2a5cc6; --blue-deep:#1f4aa8;
   --ease:cubic-bezier(.16,.8,.24,1);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{background:var(--ink);scroll-behavior:smooth}
-body{margin:0;background:var(--ink);color:var(--text);font:17px/1.55 var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+html{background:var(--blue-deep);scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:#fff;font:17px/1.5 var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  background:linear-gradient(180deg,var(--blue-top) 0,var(--blue-mid) 700px,var(--blue-low) 1500px,var(--blue-deep) 100%)}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 a{color:inherit;text-decoration:none}
 button,input{font:inherit;color:inherit}
 img{display:block;max-width:100%}
-h1,h2,h3{font-family:var(--font);font-weight:800;letter-spacing:-.045em;margin:0}
-.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
-@media (max-width:640px){.wrap{padding:0 16px}}
+h1,h2{font-family:var(--font);font-weight:800;letter-spacing:-.045em;margin:0}
+.wrap{position:relative;z-index:2;max-width:1000px;margin:0 auto;padding:0 24px}
+@media (max-width:640px){.wrap{padding:0 20px}}
+
+/* growth ruler: fixed to the edges, slides up the whole time you're on the page and moves with scroll */
+.ruler{position:fixed;top:0;bottom:0;width:110px;pointer-events:none;z-index:1;overflow:hidden;
+  -webkit-mask-image:linear-gradient(transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(transparent,#000 10%,#000 90%,transparent)}
+.ruler.r{right:0}.ruler.l{left:0;transform:scaleX(-1)}
+.ruler-track{position:absolute;left:0;right:0;top:0;will-change:transform}
+.ruler i{position:absolute;right:0;height:2px;border-radius:2px 0 0 2px;background:rgba(255,255,255,.2);width:14px}
+.ruler i.mid{width:28px;background:rgba(255,255,255,.32)}
+.ruler i.ft{width:56px;background:rgba(255,255,255,.6)}
+@media (max-width:760px){.ruler{width:44px}.ruler.l{display:none}.ruler i.ft{width:34px}.ruler i.mid{width:20px}.ruler i{width:10px}}
 
 /* 3D press buttons (same feel as Velora) */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 26px;border-radius:999px;border:0;cursor:pointer;font:700 16px var(--font);letter-spacing:-.01em;white-space:nowrap;transition:transform .18s var(--ease),box-shadow .18s var(--ease),background-color .2s}
-.btn-white{background:#fff;color:#0b1220;box-shadow:0 5px 0 #a9bad6}
-.btn-white:hover{transform:translateY(-2px);box-shadow:0 7px 0 #a9bad6}
-.btn-white:active{transform:translateY(3px);box-shadow:0 2px 0 #a9bad6}
-.btn-blue{background:linear-gradient(180deg,#4b97f8,#2f78ea);color:#fff;box-shadow:0 5px 0 #1b4fa8}
-.btn-blue:hover{transform:translateY(-2px);box-shadow:0 7px 0 #1b4fa8}
-.btn-blue:active{transform:translateY(3px);box-shadow:0 2px 0 #1b4fa8}
-.btn-sm{height:42px;padding:0 18px;font-size:15px}
-.btn:disabled{opacity:.7;cursor:default;transform:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:48px;padding:0 22px;border-radius:999px;border:0;cursor:pointer;
+  font:700 16px var(--font);letter-spacing:-.01em;white-space:nowrap;background:#fff;color:#0b1220;box-shadow:0 4px 0 #a9bad6;
+  transition:transform .18s var(--ease),box-shadow .18s var(--ease)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 #a9bad6}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #a9bad6}
+.btn:disabled{opacity:.75;cursor:default;transform:none}
+.btn-sm{height:38px;padding:0 16px;font-size:14px;box-shadow:0 3px 0 #a9bad6}
+.btn-sm:hover{box-shadow:0 5px 0 #a9bad6}
 
-/* hero: the brand blue from the app, with a growth ruler sliding up both edges */
-.hero{position:relative;min-height:100svh;overflow:hidden;color:#fff;
-  background:radial-gradient(120% 70% at 50% 0%,var(--blue-top) 0%,var(--blue-mid) 45%,var(--blue-low) 100%)}
-.hero::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.07;mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.ruler{position:absolute;top:0;bottom:0;width:120px;pointer-events:none;z-index:1;overflow:hidden;
-  -webkit-mask-image:linear-gradient(transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(transparent,#000 12%,#000 88%,transparent)}
-.ruler.r{right:0}.ruler.l{left:0;transform:scaleX(-1)}
-.ruler-track{position:absolute;left:0;right:0;top:0;animation:grow 60s linear infinite}
-.tick{position:absolute;right:0;height:2px;border-radius:2px 0 0 2px;background:rgba(255,255,255,.2);width:14px}
-.tick.mid{width:28px;background:rgba(255,255,255,.32)}
-.tick.ft{width:58px;background:rgba(255,255,255,.6)}
-.ruler-track span{display:none;position:absolute;right:68px;font:600 12px var(--font);color:rgba(255,255,255,.6);transform:translateY(-45%)}
-.ruler.l .ruler-track span{transform:translateY(-45%) scaleX(-1)}
-@media (max-width:760px){.ruler{width:50px}.ruler-track span{display:none}.ruler.l{display:none}}
-
-nav{position:absolute;top:0;left:0;right:0;z-index:5}
-nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
 .brand{display:flex;align-items:center;gap:10px;font:700 20px var(--font);letter-spacing:-.02em}
-.brand img{width:36px;height:36px;border-radius:9px}
+.brand img{width:34px;height:34px;border-radius:9px}
 
-.hero-inner{position:relative;z-index:2;text-align:center;padding:132px 0 0}
-.soon{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 16px 0 13px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font:600 14px var(--font);letter-spacing:-.005em}
-.soon svg{width:14px;height:14px;margin-top:-2px}
-.hero h1{font-size:clamp(46px,9vw,96px);line-height:.98;margin:22px auto 0;max-width:11ch}
-.hero .sub{font-size:clamp(18px,2.4vw,21px);font-weight:500;color:rgba(255,255,255,.88);margin:20px auto 0;max-width:30ch;letter-spacing:-.01em}
+/* hero */
+.hero{text-align:center;padding:72px 0 0}
+@media (max-width:640px){.hero{padding-top:44px}}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:7px 14px 7px 11px;border-radius:10px;background:#000;color:#fff;line-height:1.05;text-align:left}
+.badge svg{width:17px;height:20px}
+.badge small{display:block;font-size:10px;font-weight:500;letter-spacing:.01em;opacity:.85}
+.badge b{display:block;font-size:16px;font-weight:600;letter-spacing:-.01em}
+.hero h1{font-size:clamp(44px,9vw,92px);line-height:.98;margin:26px auto 0;max-width:11ch}
+.typed{height:1.5em;white-space:nowrap;margin:18px auto 0;font-size:clamp(19px,2.6vw,23px);font-weight:600;letter-spacing:-.015em;color:rgba(255,255,255,.92)}
+.typed .who{color:#fff;border-bottom:2px solid rgba(255,255,255,.45);padding-bottom:1px}
+.typed .caret{display:inline-block;width:2px;height:1.05em;background:#fff;margin-left:2px;vertical-align:-3px;animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
 
-.join{display:flex;gap:10px;max-width:470px;margin:34px auto 0;padding:6px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3)}
-.join input{flex:1;min-width:0;height:52px;border:0;outline:0;background:transparent;padding:0 8px 0 20px;font-size:17px;color:#fff}
-.join input::placeholder{color:rgba(255,255,255,.72)}
-.join .btn{height:52px}
+.join{display:flex;align-items:center;gap:6px;max-width:420px;margin:30px auto 0;padding:5px 5px 5px 0;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.32)}
+.join input{flex:1;min-width:0;height:44px;border:0;outline:0;background:transparent;padding:0 6px 0 18px;font-size:16px;color:#fff}
+.join input::placeholder{color:rgba(255,255,255,.75)}
+.join .btn{height:44px;padding:0 18px;font-size:15px;box-shadow:0 3px 0 #a9bad6;flex-shrink:0}
+.join .btn:hover{box-shadow:0 5px 0 #a9bad6}
 .join.bad{animation:shake .4s}
 @keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-@media (max-width:480px){
-  .join{flex-direction:column;border-radius:26px;padding:8px}
-  .join input{text-align:center;padding:0 12px}
-  .join .btn{width:100%}
-}
-.note{margin:16px 0 0;font-size:14px;font-weight:500;color:rgba(255,255,255,.78)}
-.done{display:none;max-width:470px;margin:34px auto 0;padding:16px 16px 16px 20px;border-radius:24px;background:#fff;color:#0b1220;text-align:left;box-shadow:0 5px 0 #a9bad6}
-.done.show{display:flex;gap:14px;align-items:center;animation:pop .5s var(--ease)}
-.done .check{width:40px;height:40px;flex-shrink:0;border-radius:50%;background:#2f78ea;color:#fff;display:grid;place-items:center}
-.done b{display:block;font-size:17px;letter-spacing:-.01em}.done span{color:#5b6475;font-size:14px}
-.done .share{margin-left:auto}
+.note{margin:14px 0 0;font-size:14px;font-weight:500;color:rgba(255,255,255,.78)}
+.done{display:none;align-items:center;gap:12px;max-width:420px;margin:30px auto 0;padding:12px 12px 12px 16px;border-radius:20px;background:#fff;color:#0b1220;text-align:left;box-shadow:0 4px 0 #a9bad6}
+.done.show{display:flex;animation:pop .5s var(--ease)}
+.done .check{width:34px;height:34px;flex-shrink:0;border-radius:50%;background:#2f78ea;color:#fff;display:grid;place-items:center}
+.done b{display:block;font-size:16px;letter-spacing:-.01em}.done span{display:block;color:#5b6475;font-size:13.5px;line-height:1.35}
+.done .share{margin-left:auto;background:#2f78ea;color:#fff;box-shadow:0 3px 0 #1b4fa8}
+.done .share:hover{box-shadow:0 5px 0 #1b4fa8}
 @keyframes pop{from{transform:scale(.94);opacity:0}}
 
-.phones{position:relative;height:560px;margin:64px auto 0;max-width:860px}
-.phone{position:absolute;left:50%;top:0;width:270px;aspect-ratio:1320/2868;border-radius:46px;padding:8px;background:#0b0f18;
-  box-shadow:0 0 0 1.5px rgba(255,255,255,.18),0 40px 70px -25px rgba(8,22,70,.75)}
-.phone img{width:100%;height:100%;object-fit:cover;border-radius:38px}
+.phones{position:relative;height:540px;margin:60px auto 0;max-width:900px}
+.phone{position:absolute;left:50%;top:0;width:260px;aspect-ratio:1320/2868;border-radius:44px;padding:8px;background:#0b0f18;
+  box-shadow:0 0 0 1.5px rgba(255,255,255,.2),0 40px 70px -25px rgba(8,22,70,.7)}
+.phone img{width:100%;height:100%;object-fit:cover;border-radius:36px}
 .phone.c{z-index:3;transform:translateX(-50%)}
-.phone.l{top:70px;transform:translateX(-122%) rotate(-6deg) scale(.88)}
-.phone.r{top:70px;transform:translateX(22%) rotate(6deg) scale(.88)}
-@media (max-width:760px){
-  .phones{height:440px;margin-top:52px}
-  .phone{width:205px;border-radius:36px;padding:6px}.phone img{border-radius:30px}
-  .phone.l{transform:translateX(-106%) rotate(-6deg) scale(.84)}.phone.r{transform:translateX(6%) rotate(6deg) scale(.84)}
+.phone.l{top:64px;transform:translateX(-120%) rotate(-6deg) scale(.88)}
+.phone.r{top:64px;transform:translateX(20%) rotate(6deg) scale(.88)}
+.phones{overflow:hidden;-webkit-mask-image:linear-gradient(#000 62%,transparent);mask-image:linear-gradient(#000 62%,transparent);padding-top:2px}
+@media (max-width:640px){
+  .phones{height:380px;margin-top:44px}
+  .phone{width:180px;border-radius:32px;padding:6px}.phone img{border-radius:27px}
+  .phone.l{top:44px;transform:translateX(-104%) rotate(-6deg) scale(.86)}.phone.r{top:44px;transform:translateX(4%) rotate(6deg) scale(.86)}
 }
 
-/* dark sections */
-section{padding:120px 0}
-@media (max-width:640px){section{padding:84px 0}}
-.head{text-align:center;max-width:680px;margin:0 auto 64px}
-.head h2{font-size:clamp(36px,5.6vw,60px);line-height:1.02}
-.head p{color:var(--dim);font-size:19px;margin:18px auto 0;max-width:520px}
-
-.story{display:grid;grid-template-columns:1fr 1fr;gap:48px}
-.step{min-height:62vh;display:flex;flex-direction:column;justify-content:center;opacity:.3;transition:opacity .5s}
-.step.on{opacity:1}
-.step .n{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--card-2);border:1px solid var(--line-2);font:700 15px var(--font);color:#7db7ff}
-.step h3{font-size:clamp(30px,3.8vw,42px);line-height:1.04;margin:18px 0 12px}
-.step p{color:var(--dim);font-size:18px;max-width:420px;margin:0}
-.step .shot{display:none}
-.story-phone{position:sticky;top:calc(50vh - 290px);height:580px;display:grid;place-items:center}
-.story-phone .phone{position:relative;left:auto;top:auto;transform:none;width:268px;box-shadow:0 0 0 1.5px rgba(255,255,255,.14),0 40px 80px -30px rgba(0,0,0,.9)}
-.story-phone .phone img{position:absolute;inset:8px;width:calc(100% - 16px);height:calc(100% - 16px);opacity:0;transition:opacity .45s}
-.story-phone .phone img.on{opacity:1}
-@media (max-width:900px){
-  .story{grid-template-columns:1fr}.story-phone{display:none}
-  .step{min-height:0;opacity:1;margin-bottom:76px;text-align:center;align-items:center}
-  .step .shot{display:block;width:230px;margin:30px auto 0;border-radius:36px;padding:6px;background:#0b0f18;box-shadow:0 0 0 1.5px rgba(255,255,255,.14)}
-  .step .shot img{border-radius:30px}
-}
-
-.faq{max-width:740px;margin:0 auto}
-details{border-bottom:1px solid var(--line)}
-summary{list-style:none;cursor:pointer;padding:24px 0;display:flex;justify-content:space-between;align-items:center;gap:20px;font:700 19px var(--font);letter-spacing:-.015em}
+/* faq */
+.faq{padding:40px 0 100px}
+.faq h2{font-size:clamp(34px,5vw,52px);text-align:center;margin-bottom:28px}
+.faq-list{max-width:680px;margin:0 auto;display:grid;gap:10px}
+details{border-radius:18px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);transition:background .2s}
+details[open]{background:rgba(255,255,255,.15)}
+summary{list-style:none;cursor:pointer;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:16px;font:700 17px var(--font);letter-spacing:-.015em}
 summary::-webkit-details-marker{display:none}
-summary i{width:30px;height:30px;flex-shrink:0;border-radius:50%;background:var(--card-2);display:grid;place-items:center;transition:transform .3s;font-style:normal;color:var(--dim);font-weight:500}
+summary i{width:26px;height:26px;flex-shrink:0;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center;transition:transform .3s;font-style:normal;font-weight:500}
 details[open] summary i{transform:rotate(45deg)}
-details p{margin:0 0 24px;color:var(--dim);max-width:640px}
-details a{color:#7db7ff}
+details p{margin:0;padding:0 20px 18px;color:rgba(255,255,255,.85);font-size:16px}
+details a{text-decoration:underline}
+.again{text-align:center;margin-top:40px}
 
-.final{position:relative;overflow:hidden;border-radius:36px;padding:80px 28px;text-align:center;color:#fff;
-  background:radial-gradient(120% 90% at 50% 0%,var(--blue-top),var(--blue-mid) 50%,var(--blue-low))}
-.final .ruler{width:90px}
-.final h2{font-size:clamp(38px,6vw,68px);line-height:1;position:relative;z-index:2;max-width:13ch;margin:0 auto}
-.final p.lead{position:relative;z-index:2;color:rgba(255,255,255,.88);font-size:19px;font-weight:500;margin:16px auto 0}
-.final .join,.final .done,.final .note{position:relative;z-index:2}
-@media (max-width:640px){.final{padding:60px 18px;border-radius:28px}}
+footer{padding:0 0 48px;color:rgba(255,255,255,.7);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+footer .links{display:flex;gap:18px;flex-wrap:wrap}
+footer a:hover{color:#fff}
+@media (max-width:640px){footer .wrap{justify-content:center;text-align:center}}
 
-footer{padding:48px 0 60px;color:var(--faint);font-size:15px}
-footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
-footer .links{display:flex;gap:22px;flex-wrap:wrap}
-footer a:hover{color:var(--text)}
-
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
-.reveal.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>
 </head>
 <body>
+<div class="ruler l" aria-hidden="true"><div class="ruler-track"></div></div>
+<div class="ruler r" aria-hidden="true"><div class="ruler-track"></div></div>
 
-<header class="hero">
-  <div class="ruler l" aria-hidden="true"><div class="ruler-track"></div></div>
-  <div class="ruler r" aria-hidden="true"><div class="ruler-track"></div></div>
-  <nav>
-    <div class="wrap">
-      <a class="brand" href="#top"><img src="logo.png" alt="">GoPeak</a>
-      <a class="btn btn-white btn-sm" href="#join">Join waitlist</a>
-    </div>
-  </nav>
-  <div class="hero-inner wrap" id="top">
-    <span class="soon"><svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>Coming soon on iPhone</span>
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="logo.png" alt="">GoPeak</a>
+    <a class="btn btn-sm" href="#top" data-focus>Join waitlist</a>
+  </div>
+</nav>
+
+<main id="top">
+  <header class="hero wrap">
+    <span class="badge"><svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg><span><small>Coming soon on the</small><b>App Store</b></span></span>
     <h1>find out how tall you'll get</h1>
-    <p class="sub">GoPeak predicts your adult height and gives you a daily plan to reach it.</p>
+    <p class="typed" aria-label="For short kings, late bloomers and anyone who wants to be taller"><span aria-hidden="true">for <span class="who" id="who"></span><span class="caret"></span></span></p>
 
     <form class="join" id="heroForm" novalidate>
       <label class="sr" for="heroEmail">Email</label>
       <input id="heroEmail" type="email" name="email" placeholder="your email" autocomplete="email" required>
       <input type="text" name="company" tabindex="-1" autocomplete="off" class="sr" aria-hidden="true">
-      <button class="btn btn-white" type="submit">join the waitlist</button>
+      <button class="btn" type="submit">join waitlist</button>
     </form>
-    <div class="done" id="heroDone"><span class="check"><svg width="18" height="18" viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>You're on the list</b><span data-msg>We'll email you the day it drops.</span></div><button class="btn btn-blue btn-sm share" data-share>Share</button></div>
-    <p class="note" id="heroNote">free early access · iPhone</p>
+    <div class="done" id="heroDone"><span class="check"><svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>You're on the list</b><span data-msg>We'll email you the day it drops.</span></div><button class="btn btn-sm share" data-share>Share</button></div>
+    <p class="note" id="note">free early access · iPhone</p>
 
     <div class="phones" aria-hidden="true">
       <div class="phone l"><img src="shots/curve.webp" alt=""></div>
       <div class="phone c"><img src="shots/home.webp" alt=""></div>
       <div class="phone r"><img src="shots/daily.webp" alt=""></div>
     </div>
-  </div>
-</header>
+  </header>
 
-<main>
-  <section id="inside">
-    <div class="wrap">
-      <div class="head reveal">
-        <h2>your genes set the range. your habits decide the rest.</h2>
-        <p>Here's what's inside GoPeak.</p>
-      </div>
-      <div class="story">
-        <div>
-          <div class="step on" data-shot="curve">
-            <span class="n">1</span>
-            <h3>See your growth curve</h3>
-            <p>Your predicted height range from your age and your parents' heights, and how much growing you have left.</p>
-            <div class="shot"><img src="shots/curve.webp" alt="GoPeak growth curve screen" loading="lazy"></div>
-          </div>
-          <div class="step" data-shot="home">
-            <span class="n">2</span>
-            <h3>Track where you stand</h3>
-            <p>Log your height as you grow and watch your curve update. Current height and predicted height on one screen.</p>
-            <div class="shot"><img src="shots/home.webp" alt="GoPeak home screen" loading="lazy"></div>
-          </div>
-          <div class="step" data-shot="daily">
-            <span class="n">3</span>
-            <h3>Eat and sleep for growth</h3>
-            <p>Protein, calcium, vitamin D and sleep, tracked in seconds. Keep your streak going.</p>
-            <div class="shot"><img src="shots/daily.webp" alt="GoPeak daily nutrition screen" loading="lazy"></div>
-          </div>
-          <div class="step" data-shot="workout">
-            <span class="n">4</span>
-            <h3>Train with a real plan</h3>
-            <p>A 28-day gym program with photos and steps for every exercise. Build strength and posture.</p>
-            <div class="shot"><img src="shots/workout.webp" alt="GoPeak workout screen" loading="lazy"></div>
-          </div>
-        </div>
-        <div class="story-phone" aria-hidden="true">
-          <div class="phone">
-            <img src="shots/curve.webp" alt="" data-k="curve" class="on">
-            <img src="shots/home.webp" alt="" data-k="home">
-            <img src="shots/daily.webp" alt="" data-k="daily">
-            <img src="shots/workout.webp" alt="" data-k="workout">
-            <img src="shots/welcome.webp" alt="" style="position:static;visibility:hidden">
-          </div>
-        </div>
-      </div>
+  <section class="faq wrap" id="faq">
+    <h2>questions</h2>
+    <div class="faq-list">
+      <details><summary>When does GoPeak launch?<i>+</i></summary><p>Very soon. GoPeak is in final review for the App Store. Everyone on the waitlist gets an email the day it's live.</p></details>
+      <details><summary>Is it free?<i>+</i></summary><p>Joining the waitlist is free. The app has a free trial so you can try everything before you pay.</p></details>
+      <details><summary>Will it make me taller?<i>+</i></summary><p>No app can make you taller than your genetics. GoPeak shows your realistic range and helps you build the sleep, nutrition and training habits that help you reach the top of it.</p></details>
+      <details><summary>How accurate is the prediction?<i>+</i></summary><p>It uses the mid-parental method, the standard starting point doctors use, and shows a range instead of one exact number. It's an estimate, not medical advice.</p></details>
+      <details><summary>Is it on Android?<i>+</i></summary><p>iPhone first. Join the waitlist and we'll tell you if Android comes later.</p></details>
+      <details><summary>What do you do with my email?<i>+</i></summary><p>We only use it to tell you when GoPeak launches. No spam and we never sell it. See our <a href="https://gopeak-app.netlify.app/privacy">privacy policy</a>.</p></details>
     </div>
-  </section>
-
-  <section id="faq" style="padding-top:40px">
-    <div class="wrap">
-      <div class="head reveal"><h2>questions</h2></div>
-      <div class="faq reveal">
-        <details><summary>When does GoPeak launch?<i>+</i></summary><p>Very soon. GoPeak is in final review for the App Store. Everyone on the waitlist gets an email the day it's live.</p></details>
-        <details><summary>Is it free?<i>+</i></summary><p>Joining the waitlist is free. The app has a free trial so you can try everything before you pay.</p></details>
-        <details><summary>Will it make me taller?<i>+</i></summary><p>No app can make you taller than your genetics. GoPeak shows your realistic range and helps you build the sleep, nutrition and training habits that help you reach the top of it.</p></details>
-        <details><summary>How accurate is the prediction?<i>+</i></summary><p>It uses the mid-parental method, the standard starting point doctors use, and shows a range instead of one exact number. It's an estimate, not medical advice.</p></details>
-        <details><summary>Is it on Android?<i>+</i></summary><p>iPhone first. Join the waitlist and we'll tell you if Android comes later.</p></details>
-        <details><summary>What do you do with my email?<i>+</i></summary><p>We only use it to tell you when GoPeak launches. No spam and we never sell it. See our <a href="https://gopeak-app.netlify.app/privacy">privacy policy</a>.</p></details>
-      </div>
-    </div>
-  </section>
-
-  <section style="padding-top:20px">
-    <div class="wrap">
-      <div class="final reveal" id="join">
-        <div class="ruler r" aria-hidden="true"><div class="ruler-track"></div></div>
-        <h2>don't fall short of your peak</h2>
-        <p class="lead">Get on the list. Be first in when GoPeak drops.</p>
-        <form class="join" id="finalForm" novalidate>
-          <label class="sr" for="finalEmail">Email</label>
-          <input id="finalEmail" type="email" name="email" placeholder="your email" autocomplete="email" required>
-          <input type="text" name="company" tabindex="-1" autocomplete="off" class="sr" aria-hidden="true">
-          <button class="btn btn-white" type="submit">join the waitlist</button>
-        </form>
-        <div class="done" id="finalDone"><span class="check"><svg width="18" height="18" viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>You're on the list</b><span data-msg>We'll email you the day it drops.</span></div><button class="btn btn-blue btn-sm share" data-share>Share</button></div>
-        <p class="note" id="finalNote">free early access · iPhone</p>
-      </div>
-    </div>
+    <div class="again"><a class="btn" href="#top" data-focus>join the waitlist</a></div>
   </section>
 </main>
 
@@ -284,79 +186,83 @@ footer a:hover{color:var(--text)}
 const API = "https://etdbjahwegsmuelcawgf.supabase.co/rest/v1";
 const KEY = "sb_publishable_p8exB2dS5lpdz-p1chueJA_n9zRQdnG";
 const H = { apikey: KEY, "Content-Type": "application/json" };
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// Growth ruler: inch ticks, labels every foot, drawn twice so the upward scroll loops without a seam.
-const INCH = 14, SPAN = 36; // px per inch, inches per loop (3 ft)
-document.querySelectorAll(".ruler-track").forEach((t) => {
-  for (let i = 0; i < SPAN * 6; i++) {
+// Growth ruler: inch ticks, a long line every foot. Slides up on its own and moves with scroll.
+const INCH = 14, LOOP = 12 * INCH;
+const tracks = [...document.querySelectorAll(".ruler-track")];
+tracks.forEach((t) => {
+  const n = Math.ceil((screen.height * 1.5 + LOOP * 2) / INCH);
+  for (let i = 0; i < n; i++) {
     const tick = document.createElement("i");
-    tick.className = "tick" + (i % 12 === 0 ? " ft" : i % 3 === 0 ? " mid" : "");
+    tick.className = i % 12 === 0 ? "ft" : i % 3 === 0 ? "mid" : "";
     tick.style.top = i * INCH + "px";
     t.appendChild(tick);
-    if (i % 12 === 0) {
-      const s = document.createElement("span");
-      const ft = 7 - ((i / 12) % 3); // 7, 6, 5, then repeats
-      s.style.top = i * INCH + "px"; s.textContent = `${ft}'0"`;
-      t.appendChild(s);
-    }
   }
-  t.style.height = SPAN * 6 * INCH + "px";
 });
-const kf = document.createElement("style");
-kf.textContent = `@keyframes grow{from{transform:translateY(0)}to{transform:translateY(-${SPAN * INCH}px)}}`;
-document.head.appendChild(kf);
+if (!reduce) {
+  let drift = 0, last = performance.now();
+  (function frame(now) {
+    drift += (now - last) * 0.012; last = now;
+    const y = -((drift + scrollY * 0.35) % LOOP);
+    tracks.forEach((t) => (t.style.transform = `translateY(${y}px)`));
+    requestAnimationFrame(frame);
+  })(last);
+}
+
+// typing: who it's for
+(() => {
+  const el = document.getElementById("who");
+  const words = ["short kings", "late bloomers", "people who want to be taller", "hoopers", "anyone still growing", "teens tired of guessing"];
+  if (reduce) { el.textContent = words[0]; return; }
+  let i = 0, j = 0, del = false;
+  (function tick() {
+    const w = words[i];
+    el.textContent = w.slice(0, j);
+    if (!del && j === w.length) { del = true; return setTimeout(tick, 1600); }
+    if (del && j === 0) { del = false; i = (i + 1) % words.length; return setTimeout(tick, 250); }
+    j += del ? -1 : 1;
+    setTimeout(tick, del ? 30 : 65);
+  })();
+})();
 
 let count = null;
 async function loadCount() {
   try { const r = await fetch(`${API}/rpc/waitlist_count`, { method: "POST", headers: H, body: "{}" }); if (r.ok) count = await r.json(); } catch {}
-  if (typeof count === "number" && count >= 25) {
-    const t = `${count.toLocaleString()} people already on the list · free early access`;
-    document.getElementById("heroNote").textContent = t; document.getElementById("finalNote").textContent = t;
-  }
+  if (typeof count === "number" && count >= 25) document.getElementById("note").textContent = `${count.toLocaleString()} people already on the list`;
 }
 loadCount();
 
+// any "join" button scrolls up and puts you in the email box
+const form = document.getElementById("heroForm"), email = document.getElementById("heroEmail");
+document.querySelectorAll("[data-focus]").forEach((a) => a.addEventListener("click", (e) => {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  if (form.style.display !== "none") setTimeout(() => email.focus({ preventScroll: true }), 450);
+}));
+
 const validEmail = (v) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.trim());
-function wire(id) {
-  const form = document.getElementById(id + "Form");
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    if (form.company.value) return;
-    const email = form.email.value;
-    if (!validEmail(email)) { form.classList.remove("bad"); void form.offsetWidth; form.classList.add("bad"); form.email.focus(); return; }
-    const btn = form.querySelector("button"); btn.disabled = true; btn.textContent = "joining…";
-    try {
-      const r = await fetch(`${API}/waitlist`, { method: "POST", headers: { ...H, Prefer: "return=minimal" }, body: JSON.stringify({ email: email.trim().toLowerCase() }) });
-      if (!r.ok && r.status !== 409) throw 0;
-      await loadCount();
-      const msg = r.status === 409 ? "You were already on it. We'll email you the day it drops."
-        : typeof count === "number" && count > 0 ? `You're #${count.toLocaleString()}. We'll email you the day it drops.` : "We'll email you the day it drops.";
-      for (const k of ["hero", "final"]) {
-        document.getElementById(k + "Form").style.display = "none";
-        const d = document.getElementById(k + "Done"); d.querySelector("[data-msg]").textContent = msg; d.classList.add("show");
-      }
-    } catch { btn.disabled = false; btn.textContent = "try again"; }
-  });
-}
-wire("hero"); wire("final");
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (form.company.value) return;
+  if (!validEmail(email.value)) { form.classList.remove("bad"); void form.offsetWidth; form.classList.add("bad"); email.focus(); return; }
+  const btn = form.querySelector("button"); btn.disabled = true; btn.textContent = "joining…";
+  try {
+    const r = await fetch(`${API}/waitlist`, { method: "POST", headers: { ...H, Prefer: "return=minimal" }, body: JSON.stringify({ email: email.value.trim().toLowerCase() }) });
+    if (!r.ok && r.status !== 409) throw 0;
+    await loadCount();
+    const done = document.getElementById("heroDone");
+    done.querySelector("[data-msg]").textContent = r.status === 409 ? "You were already on it. We'll email you the day it drops."
+      : typeof count === "number" && count > 0 ? `You're #${count.toLocaleString()}. We'll email you the day it drops.` : "We'll email you the day it drops.";
+    form.style.display = "none"; done.classList.add("show");
+  } catch { btn.disabled = false; btn.textContent = "try again"; }
+});
 
 document.querySelectorAll("[data-share]").forEach((b) => b.addEventListener("click", async () => {
   const data = { title: "GoPeak", text: "Find out how tall you'll get. Join the GoPeak waitlist:", url: location.origin + location.pathname };
   if (navigator.share) { try { await navigator.share(data); } catch {} return; }
   try { await navigator.clipboard.writeText(data.url); b.textContent = "Copied"; } catch {}
 }));
-
-const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0.15 });
-document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
-
-// scroll story: the phone shows the step in view
-const shots = document.querySelectorAll(".story-phone img[data-k]");
-const stepIO = new IntersectionObserver((es) => es.forEach((e) => {
-  if (!e.isIntersecting) return;
-  document.querySelectorAll(".step").forEach((s) => s.classList.toggle("on", s === e.target));
-  shots.forEach((img) => img.classList.toggle("on", img.dataset.k === e.target.dataset.shot));
-}), { rootMargin: "-45% 0px -45% 0px" });
-document.querySelectorAll(".step").forEach((s) => stepIO.observe(s));
 </script>
 </body>
 </html>
