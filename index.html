@@ -60,7 +60,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 .brand img{width:34px;height:34px;border-radius:9px}
 
 /* hero */
-.hero{text-align:center;padding:96px 0 0}
+.hero{text-align:center;padding-top:96px}
 @media (max-width:640px){.hero{padding-top:64px}}
 .badge{display:inline-flex;align-items:center;gap:8px;padding:7px 14px 7px 11px;border-radius:10px;background:#000;color:#fff;line-height:1.05;text-align:left}
 .badge svg{width:17px;height:20px}
@@ -82,17 +82,17 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 @keyframes blink{50%{opacity:0}}
 
 /* expanding waitlist pill (Velora style): a 3D button that opens into an email field */
-.pill{position:relative;display:flex;align-items:center;width:210px;height:58px;margin:32px auto 0;padding:5px;border-radius:999px;
+.pill{position:relative;display:flex;align-items:center;width:210px;height:56px;margin:32px auto 0;padding:5px;border-radius:999px;
   background:#fff;box-shadow:0 5px 0 #a9bad6;transition:width .5s var(--ease),background .3s,box-shadow .3s,transform .18s var(--ease)}
 .pill:not(.open):hover{transform:translateY(-2px);box-shadow:0 7px 0 #a9bad6}
 .pill:not(.open):active{transform:translateY(3px);box-shadow:0 2px 0 #a9bad6}
-.pill.open{width:min(420px,100%);background:rgba(255,255,255,.16);box-shadow:inset 0 0 0 1px rgba(255,255,255,.4)}
+.pill.open{width:min(380px,100%);background:rgba(255,255,255,.16);box-shadow:inset 0 0 0 1px rgba(255,255,255,.4)}
 .pill-label{position:absolute;inset:0;border:0;background:none;border-radius:999px;cursor:pointer;font:700 18px var(--font);letter-spacing:-.015em;color:#0b1220;transition:opacity .15s}
 .pill.open .pill-label{opacity:0;pointer-events:none}
 .pill-input{flex:1;min-width:0;height:100%;border:0;outline:0;background:transparent;padding:0 8px 0 18px;font-size:16px;color:#fff;opacity:0;pointer-events:none;transition:opacity .25s .2s}
 .pill-input::placeholder{color:rgba(255,255,255,.75)}
 .pill.open .pill-input{opacity:1;pointer-events:auto}
-.pill-go{flex-shrink:0;width:48px;height:48px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;background:#fff;color:#0b1220;box-shadow:0 3px 0 #a9bad6;
+.pill-go{flex-shrink:0;width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;background:#fff;color:#0b1220;box-shadow:0 3px 0 #a9bad6;
   opacity:0;transform:scale(.6);pointer-events:none;transition:opacity .25s .25s,transform .25s .25s}
 .pill.open .pill-go{opacity:1;transform:none;pointer-events:auto}
 .pill-go:active{transform:translateY(2px);box-shadow:0 1px 0 #a9bad6}
@@ -112,7 +112,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 .carousel{position:relative;margin:56px auto 0;padding-bottom:8px;touch-action:pan-y;user-select:none;-webkit-user-select:none}
 .stage{position:relative;height:600px;perspective:1400px;cursor:grab}
 .stage.drag{cursor:grabbing}
-.slide{position:absolute;left:50%;top:0;margin:0;width:262px;transform-style:preserve-3d;transition:transform .7s var(--ease),opacity .7s var(--ease),filter .7s;will-change:transform}
+.slide{position:absolute;left:50%;top:0;margin:0;touch-action:pan-y;width:262px;transform-style:preserve-3d;transition:transform .7s var(--ease),opacity .7s var(--ease),filter .7s;will-change:transform}
 .stage.drag .slide{transition:none}
 .phone{aspect-ratio:1320/2868;border-radius:44px;padding:8px;background:#0b0f18;box-shadow:0 0 0 1.5px rgba(255,255,255,.22),0 40px 70px -25px rgba(8,22,70,.7)}
 .phone img{width:100%;height:100%;object-fit:cover;border-radius:36px;pointer-events:none;-webkit-user-drag:none}
@@ -265,22 +265,31 @@ if (!reduce) {
   }
   function go(i) { cur = (i + n) % n; drag = 0; layout(); restart(); }
   function restart() { clearInterval(timer); if (!reduce) timer = setInterval(() => go(cur + 1), 3200); }
-  // swipe / drag
-  let x0 = null, y0 = 0, moved = false;
-  stage.addEventListener("pointerdown", (e) => { x0 = e.clientX; y0 = e.clientY; moved = false; clearInterval(timer); });
-  addEventListener("pointermove", (e) => {
+  // swipe (touch) and drag (mouse) anywhere on the phones
+  let x0 = null, y0 = 0, moved = false, locked = false;
+  const startAt = (x, y) => { x0 = x; y0 = y; moved = false; locked = false; clearInterval(timer); };
+  const moveTo = (x, y, e) => {
     if (x0 === null) return;
-    const dx = e.clientX - x0;
-    if (!moved && Math.abs(dx) < 6) return;
-    if (!moved && Math.abs(e.clientY - y0) > Math.abs(dx)) { x0 = null; restart(); return; } // vertical scroll, let the page move
+    const dx = x - x0, dy = y - y0;
+    if (!moved && !locked) {
+      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+      if (Math.abs(dy) > Math.abs(dx)) { x0 = null; restart(); return; } // vertical: let the page scroll
+      locked = true;
+    }
+    if (e && e.cancelable) e.preventDefault(); // horizontal: the carousel owns this gesture
     moved = true; stage.classList.add("drag");
     drag = dx / (slides[0].offsetWidth * 0.9); layout();
-  });
+  };
   const end = () => {
     if (x0 === null) return; x0 = null; stage.classList.remove("drag");
-    if (moved) { const step = Math.round(-drag) || (drag < -0.15 ? 1 : drag > 0.15 ? -1 : 0); go(cur + step); } else restart();
+    if (moved) { const step = Math.round(-drag) || (drag < -0.12 ? 1 : drag > 0.12 ? -1 : 0); go(cur + step); } else restart();
   };
-  addEventListener("pointerup", end); addEventListener("pointercancel", end);
+  stage.addEventListener("touchstart", (e) => startAt(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+  stage.addEventListener("touchmove", (e) => moveTo(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
+  stage.addEventListener("touchend", end); stage.addEventListener("touchcancel", end);
+  stage.addEventListener("pointerdown", (e) => { if (e.pointerType === "mouse") startAt(e.clientX, e.clientY); });
+  addEventListener("pointermove", (e) => { if (e.pointerType === "mouse") moveTo(e.clientX, e.clientY); });
+  addEventListener("pointerup", (e) => { if (e.pointerType === "mouse") end(); });
   slides.forEach((el, i) => el.addEventListener("click", () => { if (!moved && i !== cur) go(i); }));
   addEventListener("resize", layout);
   layout(); restart();
