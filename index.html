@@ -99,6 +99,12 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 .pill-go:disabled{opacity:.6}
 .pill.bad{animation:shake .4s}
 @keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.ask{display:none;margin:14px 0 0;font-size:16px;font-weight:600}
+.ask.show{display:block}
+.skip{display:none;margin:12px auto 0;padding:4px 10px;border:0;background:none;cursor:pointer;font:600 15px var(--font);color:#fff;text-decoration:underline;text-underline-offset:3px}
+.skip.show{display:block}
+.legal{display:none;max-width:380px;margin:10px auto 0;font-size:12px;line-height:1.4;color:rgba(255,255,255,.85)}
+.legal.show{display:block}
 .note{margin:14px 0 0;font-size:14px;font-weight:500;color:rgba(255,255,255,.78)}
 .done{display:none;align-items:center;gap:12px;max-width:420px;margin:30px auto 0;padding:12px 12px 12px 16px;border-radius:20px;background:#fff;color:#0b1220;text-align:left;box-shadow:0 4px 0 #a9bad6}
 .done.show{display:flex;animation:pop .5s var(--ease)}
@@ -178,16 +184,21 @@ footer a:hover{color:#fff}
       <button type="submit" class="pill-go" aria-label="Join waitlist" tabindex="-1"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </form>
     <div class="done" id="heroDone"><span class="check"><svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>You're on the list</b><span data-msg>We'll email you the day it drops.</span></div><button class="btn btn-sm share" data-share>Share</button></div>
+    <p class="ask" id="ask">saved. want a text the day it drops too?</p>
+    <button type="button" class="skip" id="skip">skip, email is fine</button>
+    <p class="legal" id="legal">Add your number to get one text when GoPeak launches. Msg and data rates may apply. Reply STOP to opt out.</p>
     <p class="note" id="note">free early access · iPhone</p>
 
     <div class="carousel" id="carousel" aria-label="App screenshots, swipe to browse">
       <div class="stage" id="stage">
-        <figure class="slide"><div class="phone"><img src="shots/home.webp" alt="GoPeak home: current and predicted height"></div><figcaption>your predicted height</figcaption></figure>
-        <figure class="slide"><div class="phone"><img src="shots/curve.webp" alt="GoPeak growth curve" loading="lazy"></div><figcaption>your growth curve</figcaption></figure>
-        <figure class="slide"><div class="phone"><img src="shots/daily.webp" alt="GoPeak daily nutrition tracking" loading="lazy"></div><figcaption>daily nutrition + sleep</figcaption></figure>
-        <figure class="slide"><div class="phone"><img src="shots/grow.webp" alt="GoPeak 28-day Grow program" loading="lazy"></div><figcaption>28-day grow program</figcaption></figure>
-        <figure class="slide"><div class="phone"><img src="shots/workout.webp" alt="GoPeak workout with exercise photos" loading="lazy"></div><figcaption>guided workouts</figcaption></figure>
-        <figure class="slide"><div class="phone"><img src="shots/progress.webp" alt="GoPeak progress tracking" loading="lazy"></div><figcaption>track your progress</figcaption></figure>
+        <figure class="slide"><div class="phone"><img src="shots/v2-home.webp" alt="GoPeak home: projected height and accuracy ring"></div><figcaption>your predicted height</figcaption></figure>
+        <figure class="slide"><div class="phone"><img src="shots/v2-tasks.webp" alt="GoPeak today's tasks checklist" loading="lazy"></div><figcaption>daily tasks to grow</figcaption></figure>
+        <figure class="slide"><div class="phone"><img src="shots/v2-exercises.webp" alt="GoPeak 4-week gym program calendar" loading="lazy"></div><figcaption>4-week gym program</figcaption></figure>
+        <figure class="slide"><div class="phone"><img src="shots/v2-workout.webp" alt="GoPeak workout with sets, reps and rest timer" loading="lazy"></div><figcaption>log every set</figcaption></figure>
+        <figure class="slide"><div class="phone"><img src="shots/v2-nutrition.webp" alt="GoPeak nutrition: calories, protein and calcium" loading="lazy"></div><figcaption>nutrition goals</figcaption></figure>
+        <figure class="slide"><div class="phone"><img src="shots/v2-sleep.webp" alt="GoPeak sleep tracking with weekly chart" loading="lazy"></div><figcaption>sleep tracking</figcaption></figure>
+        <figure class="slide"><div class="phone"><img src="shots/v2-you.webp" alt="GoPeak stats: projected height, goal and percentile" loading="lazy"></div><figcaption>your stats</figcaption></figure>
+        <figure class="slide"><div class="phone"><img src="shots/v2-coach.webp" alt="GoPeak AI coach logging a meal" loading="lazy"></div><figcaption>ai coach</figcaption></figure>
       </div>
       <div class="dots" id="dots" role="tablist"></div>
     </div>
@@ -202,7 +213,7 @@ footer a:hover{color:#fff}
       <details><summary>Will it make me taller?<i>+</i></summary><p>No app can make you taller than your genetics. GoPeak shows your realistic range and helps you build the sleep, nutrition and training habits that help you reach the top of it.</p></details>
       <details><summary>How accurate is the prediction?<i>+</i></summary><p>It uses the mid-parental method, the standard starting point doctors use, and shows a range instead of one exact number. It's an estimate, not medical advice.</p></details>
       <details><summary>Is it on Android?<i>+</i></summary><p>iPhone first. Join the waitlist and we'll tell you if Android comes later.</p></details>
-      <details><summary>What do you do with my email?<i>+</i></summary><p>We only use it to tell you when GoPeak launches. No spam and we never sell it. See our <a href="https://gopeak-app.netlify.app/privacy">privacy policy</a>.</p></details>
+      <details><summary>What do you do with my email and number?<i>+</i></summary><p>We only use them to tell you when GoPeak launches. Your phone number is optional. No spam and we never sell either one. See our <a href="https://gopeak-app.netlify.app/privacy">privacy policy</a>.</p></details>
     </div>
     <div class="again"><a class="btn" href="#top" data-focus>join the waitlist</a></div>
   </section>
@@ -221,6 +232,8 @@ footer a:hover{color:#fff}
 const API = "https://etdbjahwegsmuelcawgf.supabase.co/rest/v1";
 const KEY = "sb_publishable_p8exB2dS5lpdz-p1chueJA_n9zRQdnG";
 const H = { apikey: KEY, "Content-Type": "application/json" };
+// On localhost nothing is sent to Supabase: signups are faked so testing never touches the real list.
+const LOCAL = /^(localhost|127\.)/.test(location.hostname);
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // Growth ruler: inch ticks, a long line every foot. Slides up on its own and moves with scroll.
@@ -331,7 +344,7 @@ track("view");
 let count = null;
 async function loadCount() {
   try { const r = await fetch(`${API}/rpc/waitlist_count`, { method: "POST", headers: H, body: "{}" }); if (r.ok) count = await r.json(); } catch {}
-  if (typeof count === "number" && count >= 25) document.getElementById("note").textContent = `${count.toLocaleString()} people already on the list`;
+  if (step !== "phone" && typeof count === "number" && count >= 25) document.getElementById("note").textContent = `${count.toLocaleString()} people already on the list`;
 }
 loadCount();
 
@@ -351,21 +364,83 @@ document.querySelectorAll("[data-focus]").forEach((a) => a.addEventListener("cli
 }));
 
 const validEmail = (v) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.trim());
+// phone: keep digits, US numbers get +1, otherwise need a leading + and 8 to 15 digits
+function cleanPhone(v) {
+  const plus = v.trim().startsWith("+"), d = v.replace(/\D/g, "");
+  if (!plus && d.length === 10) return "+1" + d;
+  if (!plus && d.length === 11 && d[0] === "1") return "+" + d;
+  if (plus && d.length >= 8 && d.length <= 15) return "+" + d;
+  return null;
+}
+// pretty US formatting while typing: (555) 123-4567
+function formatPhone(v) {
+  if (v.trim().startsWith("+")) return v;
+  const d = v.replace(/\D/g, "").slice(0, 10);
+  if (d.length < 4) return d;
+  if (d.length < 7) return `(${d.slice(0, 3)}) ${d.slice(3)}`;
+  return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`;
+}
+const shake = () => { form.classList.remove("bad"); void form.offsetWidth; form.classList.add("bad"); };
+const skip = document.getElementById("skip"), legal = document.getElementById("legal"), note = document.getElementById("note");
+var step = "email", savedEmail = "", wasOnList = false;
+
+async function post(path, body) {
+  if (LOCAL) { await new Promise((r) => setTimeout(r, 400)); return { ok: true, status: 201 }; }
+  return fetch(`${API}/${path}`, { method: "POST", headers: { ...H, Prefer: "return=minimal" }, body: JSON.stringify(body) });
+}
+
+function finish(withPhone) {
+  const done = document.getElementById("heroDone"), how = withPhone ? "text and email you" : "email you";
+  done.querySelector("[data-msg]").textContent = wasOnList ? `You were already on it. We'll ${how} the day it drops.`
+    : typeof count === "number" && count > 0 ? `You're #${count.toLocaleString()}. We'll ${how} the day it drops.` : `We'll ${how} the day it drops.`;
+  form.style.display = "none"; skip.classList.remove("show"); document.getElementById("ask").classList.remove("show");
+  note.style.display = ""; legal.classList.remove("show");
+  note.textContent = "free early access · iPhone"; loadCount();
+  done.classList.add("show");
+}
+
+// step 2: the same pill turns into an optional phone field
+function askPhone() {
+  step = "phone";
+  email.value = ""; email.type = "tel"; email.name = "phone"; email.placeholder = "phone number (optional)";
+  email.setAttribute("autocomplete", "tel"); email.setAttribute("inputmode", "tel");
+  form.querySelector("label").textContent = "Phone number";
+  form.querySelector(".pill-go").setAttribute("aria-label", "Add phone number");
+  form.querySelector(".pill-go").disabled = false;
+  note.style.display = "none"; document.getElementById("ask").classList.add("show");
+  skip.classList.add("show"); legal.classList.add("show");
+  setTimeout(() => email.focus({ preventScroll: true }), 50);
+}
+email.addEventListener("input", () => { if (step === "phone") email.value = formatPhone(email.value); });
+skip.addEventListener("click", () => finish(false));
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   if (form.company.value) return;
-  if (!validEmail(email.value)) { form.classList.remove("bad"); void form.offsetWidth; form.classList.add("bad"); email.focus(); return; }
-  const btn = form.querySelector(".pill-go"); btn.disabled = true;
+  const btn = form.querySelector(".pill-go");
+  if (step === "email") {
+    if (!validEmail(email.value)) { shake(); email.focus(); return; }
+    btn.disabled = true;
+    try {
+      savedEmail = email.value.trim().toLowerCase();
+      const r = await post("waitlist", { email: savedEmail });
+      if (!r.ok && r.status !== 409) throw 0;
+      wasOnList = r.status === 409;
+      if (r.ok) track("signup");
+      await loadCount();
+      askPhone();
+    } catch { btn.disabled = false; shake(); }
+    return;
+  }
+  const phone = cleanPhone(email.value);
+  if (!phone) { shake(); email.focus(); return; }
+  btn.disabled = true;
   try {
-    const r = await fetch(`${API}/waitlist`, { method: "POST", headers: { ...H, Prefer: "return=minimal" }, body: JSON.stringify({ email: email.value.trim().toLowerCase() }) });
-    if (!r.ok && r.status !== 409) throw 0;
-    await loadCount();
-    if (r.ok) track("signup");
-    const done = document.getElementById("heroDone");
-    done.querySelector("[data-msg]").textContent = r.status === 409 ? "You were already on it. We'll email you the day it drops."
-      : typeof count === "number" && count > 0 ? `You're #${count.toLocaleString()}. We'll email you the day it drops.` : "We'll email you the day it drops.";
-    form.style.display = "none"; done.classList.add("show");
-  } catch { btn.disabled = false; form.classList.remove("bad"); void form.offsetWidth; form.classList.add("bad"); }
+    const r = await post("rpc/waitlist_add_phone", { p_email: savedEmail, p_phone: phone });
+    if (!r.ok) throw 0;
+    track("phone");
+    finish(true);
+  } catch { btn.disabled = false; shake(); }
 });
 
 document.querySelectorAll("[data-share]").forEach((b) => b.addEventListener("click", async () => {
