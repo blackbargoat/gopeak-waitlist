@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Get GoPeak</title>
+<meta name="description" content="Find out how tall you'll get. GoPeak predicts your adult height and gives you daily habits to reach it.">
+<meta property="og:title" content="GoPeak: find out how tall you'll get">
+<meta property="og:description" content="Free on the App Store for iPhone.">
+<meta property="og:image" content="https://getgopeak.com/og.jpg">
+<meta name="theme-color" content="#3f86ef">
+<meta name="apple-itunes-app" content="app-id=6820637191">
+<link rel="icon" href="/logo.png">
+<style>
+  :root{--font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,system-ui,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%}
+  body{min-height:100vh;min-height:100dvh;color:#fff;font:17px/1.5 var(--font);-webkit-font-smoothing:antialiased;
+    background:linear-gradient(180deg,#5aa6fa 0,#3f86ef 55%,#2a5cc6 100%);display:grid;place-items:center;padding:28px 22px}
+  .box{width:100%;max-width:380px;text-align:center}
+  .logo{width:96px;height:96px;border-radius:24px;box-shadow:0 10px 26px rgba(0,0,0,.25)}
+  h1{font-size:34px;line-height:1.08;font-weight:800;letter-spacing:-1px;margin:22px 0 10px;text-wrap:balance}
+  p{font-size:16px;opacity:.92}
+  .btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:58px;margin-top:26px;border-radius:999px;
+    background:#fff;color:#0b1220;font-size:18px;font-weight:800;text-decoration:none;box-shadow:0 5px 0 #a9bad6;transition:transform .12s,box-shadow .12s}
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 #a9bad6}
+  .btn svg{width:22px;height:22px}
+  .note{margin-top:16px;font-size:13px;opacity:.85}
+  .ig{display:none;margin-top:22px;background:rgba(0,0,0,.18);border-radius:20px;padding:16px;text-align:left;font-size:15px}
+  .ig b{display:block;margin-bottom:6px}
+  .ig ol{padding-left:20px}
+  .dots{display:inline-block;background:rgba(255,255,255,.25);border-radius:6px;padding:0 6px;font-weight:800;letter-spacing:1px}
+  .other{display:none}
+  body.webview .ig{display:block}
+  body.notios .ios{display:none}
+  body.notios .other{display:block}
+</style>
+</head>
+<body>
+<main class="box">
+  <img class="logo" src="/logo.png" alt="GoPeak">
+  <h1>find out how tall you'll get</h1>
+  <p>gopeak predicts your adult height in about 2 minutes, plus daily habits to reach it.</p>
+
+  <div class="ios">
+    <a class="btn" id="get" href="https://apps.apple.com/app/id6820637191">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.6 1.3 10.1.8 1.2 1.8 2.6 3.1 2.5 1.3-.1 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-.9-2.4-3.7zM14 5.3c.7-.8 1.1-2 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4z"/></svg>
+      get it on the app store
+    </a>
+    <p class="note">free to download · iphone</p>
+    <div class="ig">
+      <b>button not opening?</b>
+      <ol><li>tap <span class="dots">•••</span> at the top right</li><li>tap <b style="display:inline">open in external browser</b></li><li>tap the button again</li></ol>
+    </div>
+  </div>
+
+  <div class="other">
+    <p style="margin-top:24px;font-weight:700">gopeak is iphone only for now.</p>
+    <p class="note">open getgopeak.com/download on your iphone to get it.</p>
+  </div>
+</main>
+<script>
+// Bio link tracking: each Instagram account links here with ?src=pranks / ?src=tallteen.
+// Logs a visit (kind "view") and an App Store tap (kind "open") with ref "dl-<src>". No personal data.
+const API = "https://etdbjahwegsmuelcawgf.supabase.co/rest/v1", KEY = "sb_publishable_p8exB2dS5lpdz-p1chueJA_n9zRQdnG";
+const q = new URLSearchParams(location.search), src = (q.get("src") || q.get("ref") || "bio").toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 30);
+const REF = "dl-" + src, LOCAL = /^(localhost|127\.)/.test(location.hostname);
+// App Store campaign link: ct = which account. pt (provider token) comes from App Store Connect > Analytics > Campaigns.
+const PT = "128964594";
+const STORE = "https://apps.apple.com/app/id6820637191" + "?ct=" + encodeURIComponent("ig_" + src) + (PT ? "&pt=" + PT : "") + "&mt=8";
+const get = document.getElementById("get"); get.href = STORE;
+function track(kind) {
+  if (LOCAL) return console.log("track", kind, REF);
+  try { fetch(API + "/site_events", { method: "POST", keepalive: true, headers: { apikey: KEY, "Content-Type": "application/json", Prefer: "return=minimal" }, body: JSON.stringify({ kind, ref: REF }) }); } catch (e) {}
+}
+const ua = navigator.userAgent;
+const webview = /Instagram|FBAN|FBAV|musical_ly|TikTok|BytedanceWebview|Snapchat/i.test(ua);
+if (!/iPhone|iPod|iPad/.test(ua)) document.body.classList.add("notios");
+if (webview) document.body.classList.add("webview");
+track("view");
+get.addEventListener("click", () => track("open"));
+// Plain iPhone browsers (Safari, Chrome): go straight to the App Store after logging the visit
+if (/iPhone|iPod/.test(ua) && !webview) setTimeout(() => { track("open"); location.href = STORE; }, 250);
+</script>
+</body>
+</html>
