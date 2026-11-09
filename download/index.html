@@ -79,8 +79,13 @@ if (!/iPhone|iPod|iPad/.test(ua)) document.body.classList.add("notios");
 if (webview) document.body.classList.add("webview");
 track("view");
 get.addEventListener("click", () => track("open"));
-// Plain iPhone browsers (Safari, Chrome): go straight to the App Store after logging the visit
-if (/iPhone|iPod/.test(ua) && !webview) setTimeout(() => { track("open"); location.href = STORE; }, 250);
+// Every iPhone goes straight to the App Store, including inside Instagram/TikTok. In-app browsers get the
+// itms-apps:// link (opens the App Store app directly), then the https link as a fallback; the button stays as backup.
+if (/iPhone|iPod/.test(ua)) setTimeout(() => {
+  track("open");
+  if (webview) { location.href = STORE.replace(/^https:/, "itms-apps:"); setTimeout(() => { if (!document.hidden) location.href = STORE; }, 1200); }
+  else location.href = STORE;
+}, 250);
 </script>
 </body>
 </html>
