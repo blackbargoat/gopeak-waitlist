@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#5aa6fa">
-<title>GoPeak Waitlist</title>
-<meta name="description" content="Find out how tall you'll get. GoPeak predicts your adult height range and gives you a daily plan to reach the top of it. Join the waitlist.">
+<title>GoPeak: find out how tall you’ll get</title>
+<meta name="description" content="Find out how tall you'll get. GoPeak predicts your adult height range and gives you a daily plan to reach the top of it. Free to download on iPhone.">
 <meta property="og:title" content="GoPeak: find out how tall you'll get">
-<meta property="og:description" content="GoPeak is almost here. Join the waitlist for free early access on iPhone.">
+<meta property="og:description" content="Predict your adult height and get a daily plan to reach the top of your range. On the App Store.">
 <meta property="og:image" content="https://getgopeak.com/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="logo.png">
@@ -114,6 +114,9 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 .done .share:hover{box-shadow:0 5px 0 #1b4fa8}
 @keyframes pop{from{transform:scale(.94);opacity:0}}
 
+.appstore{display:inline-flex;align-items:center;gap:12px;margin:32px auto 0;padding:12px 26px 12px 20px;border-radius:18px;background:#000;color:#fff;text-align:left;box-shadow:0 5px 0 #0b1a3d;transition:transform .18s var(--ease),box-shadow .18s var(--ease)}
+.appstore:hover{transform:translateY(-2px);box-shadow:0 7px 0 #0b1a3d}.appstore:active{transform:translateY(3px);box-shadow:0 2px 0 #0b1a3d}
+.appstore small{display:block;font-size:12px;font-weight:500;opacity:.85;line-height:1.1}.appstore b{display:block;font-size:24px;font-weight:600;letter-spacing:-.02em;line-height:1.1}
 /* screenshot carousel: swipe or drag, auto-rotates, phones turn around a circle */
 .carousel{position:relative;margin:56px auto 0;padding-bottom:8px;touch-action:pan-y;user-select:none;-webkit-user-select:none}
 .stage{position:relative;height:600px;perspective:1400px;cursor:grab}
@@ -167,7 +170,7 @@ footer a:hover{color:#fff}
 <nav>
   <div class="wrap">
     <a class="brand" href="#top"><img src="logo.png" alt="">GoPeak</a>
-    <a class="btn btn-sm" href="#top" data-focus>Join waitlist</a>
+    <a class="btn btn-sm" href="https://apps.apple.com/app/id6820637191?pt=128964594&ct=site&mt=8" data-dl>Download</a>
   </div>
 </nav>
 
@@ -176,18 +179,8 @@ footer a:hover{color:#fff}
     <h1>find out how <span class="tall">tall</span> you'll get</h1>
     <p class="typed" aria-label="For short kings, late bloomers and anyone who wants to be taller"><span aria-hidden="true">for <span class="who" id="who"></span><span class="caret"></span></span></p>
 
-    <form class="pill" id="heroForm" novalidate>
-      <button type="button" class="pill-label" id="pillOpen">join waitlist</button>
-      <label class="sr" for="heroEmail">Email</label>
-      <input id="heroEmail" class="pill-input" type="email" name="email" placeholder="your email" autocomplete="email" required tabindex="-1">
-      <input type="text" name="company" tabindex="-1" autocomplete="off" class="sr" aria-hidden="true">
-      <button type="submit" class="pill-go" aria-label="Join waitlist" tabindex="-1"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </form>
-    <div class="done" id="heroDone"><span class="check"><svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>You're on the list</b><span data-msg>We'll email you the day it drops.</span></div><button class="btn btn-sm share" data-share>Share</button></div>
-    <p class="ask" id="ask">saved. want a text the day it drops too?</p>
-    <button type="button" class="skip" id="skip">skip, email is fine</button>
-    <p class="legal" id="legal">Add your number to get one text when GoPeak launches. Msg and data rates may apply. Reply STOP to opt out.</p>
-    <p class="note" id="note">free early access · iPhone</p>
+    <a class="appstore" href="https://apps.apple.com/app/id6820637191?pt=128964594&ct=site&mt=8" data-dl aria-label="Download GoPeak on the App Store"><svg viewBox="0 0 384 512" width="26" height="30" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg><span><small>Download on the</small><b>App Store</b></span></a>
+    <p class="note" id="note">free download · iPhone</p>
 
     <div class="carousel" id="carousel" aria-label="App screenshots, swipe to browse">
       <div class="stage" id="stage">
@@ -208,14 +201,13 @@ footer a:hover{color:#fff}
   <section class="faq wrap" id="faq">
     <h2>questions</h2>
     <div class="faq-list">
-      <details><summary>When does GoPeak launch?<i>+</i></summary><p>Very soon. GoPeak is in final review for the App Store. Everyone on the waitlist gets an email the day it's live.</p></details>
-      <details><summary>Is it free?<i>+</i></summary><p>Joining the waitlist is free. The app has a free trial so you can try everything before you pay.</p></details>
+      <details><summary>Where do I get it?<i>+</i></summary><p>GoPeak is on the <a href="https://apps.apple.com/app/id6820637191?pt=128964594&ct=site&mt=8">App Store</a> for iPhone.</p></details>
+      <details><summary>Is it free?<i>+</i></summary><p>Downloading is free, and there's a free trial so you can try everything before you pay.</p></details>
       <details><summary>Will it make me taller?<i>+</i></summary><p>No app can make you taller than your genetics. GoPeak shows your realistic range and helps you build the sleep, nutrition and training habits that help you reach the top of it.</p></details>
       <details><summary>How accurate is the prediction?<i>+</i></summary><p>It uses the mid-parental method, the standard starting point doctors use, and shows a range instead of one exact number. It's an estimate, not medical advice.</p></details>
-      <details><summary>Is it on Android?<i>+</i></summary><p>iPhone first. Join the waitlist and we'll tell you if Android comes later.</p></details>
-      <details><summary>What do you do with my email and number?<i>+</i></summary><p>We only use them to tell you when GoPeak launches. Your phone number is optional. No spam and we never sell either one. See our <a href="https://gopeak-app.netlify.app/privacy">privacy policy</a>.</p></details>
+      <details><summary>Is it on Android?<i>+</i></summary><p>iPhone only for now.</p></details>
     </div>
-    <div class="again"><a class="btn" href="#top" data-focus>join the waitlist</a></div>
+    <div class="again"><a class="btn" href="https://apps.apple.com/app/id6820637191?pt=128964594&ct=site&mt=8" data-dl>download GoPeak</a></div>
   </section>
 </main>
 
@@ -228,7 +220,7 @@ footer a:hover{color:#fff}
 </footer>
 
 <script>
-// Signups go to GoPeak's Supabase "waitlist" table. The public key can only insert and read the total count.
+// Anonymous page analytics go to GoPeak's Supabase (site_events). App Store taps are logged as "open".
 const API = "https://etdbjahwegsmuelcawgf.supabase.co/rest/v1";
 const KEY = "sb_publishable_p8exB2dS5lpdz-p1chueJA_n9zRQdnG";
 const H = { apikey: KEY, "Content-Type": "application/json" };
@@ -341,113 +333,7 @@ function track(kind) {
 }
 track("view");
 
-let count = null;
-async function loadCount() {
-  try { const r = await fetch(`${API}/rpc/waitlist_count`, { method: "POST", headers: H, body: "{}" }); if (r.ok) count = await r.json(); } catch {}
-  if (step !== "phone" && typeof count === "number" && count >= 25) document.getElementById("note").textContent = `${count.toLocaleString()} people already on the list`;
-}
-loadCount();
-
-// any "join" button scrolls up and puts you in the email box
-const form = document.getElementById("heroForm"), email = document.getElementById("heroEmail");
-function openPill() {
-  track("open");
-  form.classList.add("open");
-  form.querySelectorAll("[tabindex='-1']:not([name=company])").forEach((el) => el.removeAttribute("tabindex"));
-  setTimeout(() => email.focus({ preventScroll: true }), 260);
-}
-document.getElementById("pillOpen").addEventListener("click", openPill);
-document.querySelectorAll("[data-focus]").forEach((a) => a.addEventListener("click", (e) => {
-  e.preventDefault();
-  window.scrollTo({ top: 0, behavior: "smooth" });
-  if (form.style.display !== "none") setTimeout(openPill, 450);
-}));
-
-const validEmail = (v) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.trim());
-// phone: keep digits, US numbers get +1, otherwise need a leading + and 8 to 15 digits
-function cleanPhone(v) {
-  const plus = v.trim().startsWith("+"), d = v.replace(/\D/g, "");
-  if (!plus && d.length === 10) return "+1" + d;
-  if (!plus && d.length === 11 && d[0] === "1") return "+" + d;
-  if (plus && d.length >= 8 && d.length <= 15) return "+" + d;
-  return null;
-}
-// pretty US formatting while typing: (555) 123-4567
-function formatPhone(v) {
-  if (v.trim().startsWith("+")) return v;
-  const d = v.replace(/\D/g, "").slice(0, 10);
-  if (d.length < 4) return d;
-  if (d.length < 7) return `(${d.slice(0, 3)}) ${d.slice(3)}`;
-  return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`;
-}
-const shake = () => { form.classList.remove("bad"); void form.offsetWidth; form.classList.add("bad"); };
-const skip = document.getElementById("skip"), legal = document.getElementById("legal"), note = document.getElementById("note");
-var step = "email", savedEmail = "", wasOnList = false;
-
-async function post(path, body) {
-  if (LOCAL) { await new Promise((r) => setTimeout(r, 400)); return { ok: true, status: 201 }; }
-  return fetch(`${API}/${path}`, { method: "POST", headers: { ...H, Prefer: "return=minimal" }, body: JSON.stringify(body) });
-}
-
-function finish(withPhone) {
-  const done = document.getElementById("heroDone"), how = withPhone ? "text and email you" : "email you";
-  done.querySelector("[data-msg]").textContent = wasOnList ? `You were already on it. We'll ${how} the day it drops.`
-    : typeof count === "number" && count > 0 ? `You're #${count.toLocaleString()}. We'll ${how} the day it drops.` : `We'll ${how} the day it drops.`;
-  form.style.display = "none"; skip.classList.remove("show"); document.getElementById("ask").classList.remove("show");
-  note.style.display = ""; legal.classList.remove("show");
-  note.textContent = "free early access · iPhone"; loadCount();
-  done.classList.add("show");
-}
-
-// step 2: the same pill turns into an optional phone field
-function askPhone() {
-  step = "phone";
-  email.value = ""; email.type = "tel"; email.name = "phone"; email.placeholder = "phone number (optional)";
-  email.setAttribute("autocomplete", "tel"); email.setAttribute("inputmode", "tel");
-  form.querySelector("label").textContent = "Phone number";
-  form.querySelector(".pill-go").setAttribute("aria-label", "Add phone number");
-  form.querySelector(".pill-go").disabled = false;
-  note.style.display = "none"; document.getElementById("ask").classList.add("show");
-  skip.classList.add("show"); legal.classList.add("show");
-  setTimeout(() => email.focus({ preventScroll: true }), 50);
-}
-email.addEventListener("input", () => { if (step === "phone") email.value = formatPhone(email.value); });
-skip.addEventListener("click", () => finish(false));
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  if (form.company.value) return;
-  const btn = form.querySelector(".pill-go");
-  if (step === "email") {
-    if (!validEmail(email.value)) { shake(); email.focus(); return; }
-    btn.disabled = true;
-    try {
-      savedEmail = email.value.trim().toLowerCase();
-      const r = await post("waitlist", { email: savedEmail });
-      if (!r.ok && r.status !== 409) throw 0;
-      wasOnList = r.status === 409;
-      if (r.ok) track("signup");
-      await loadCount();
-      askPhone();
-    } catch { btn.disabled = false; shake(); }
-    return;
-  }
-  const phone = cleanPhone(email.value);
-  if (!phone) { shake(); email.focus(); return; }
-  btn.disabled = true;
-  try {
-    const r = await post("rpc/waitlist_add_phone", { p_email: savedEmail, p_phone: phone });
-    if (!r.ok) throw 0;
-    track("phone");
-    finish(true);
-  } catch { btn.disabled = false; shake(); }
-});
-
-document.querySelectorAll("[data-share]").forEach((b) => b.addEventListener("click", async () => {
-  const data = { title: "GoPeak", text: "Find out how tall you'll get. Join the GoPeak waitlist:", url: location.origin + location.pathname };
-  if (navigator.share) { try { await navigator.share(data); } catch {} return; }
-  try { await navigator.clipboard.writeText(data.url); b.textContent = "Copied"; } catch {}
-}));
+document.querySelectorAll("[data-dl]").forEach((a) => a.addEventListener("click", () => track("open")));
 </script>
 </body>
 </html>
